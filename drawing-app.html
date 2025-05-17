@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Drawing App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .drawing-board {
+            display: grid;
+            grid-template-columns: repeat(40, 1fr);
+            grid-template-rows: repeat(30, 1fr);
+            width: 800px;
+            height: 600px;
+            margin: 20px auto;
+            border: 2px solid #333;
+            background-color: white;
+        }
+        
+        .pixel {
+            background-color: white;
+            border: 0.5px solid #eee;
+        }
+        
+        .pixel:hover {
+            background-color: black;
+        }
+        
+        .controls {
+            margin: 20px 0;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        input {
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Drawing App</h1>
+    
+    <div class="controls">
+        <label for="color-picker">Color: </label>
+        <input type="color" id="color-picker" value="#000000">
+        
+        <button onclick="clearDrawing()">Clear</button>
+    </div>
+    
+    <div class="drawing-board" id="board">
+        <!-- 1200 pixels will be generated here -->
+    </div>
+    
+    <script>
+        // This minimal JS is just for setup and clearing
+        // Not used for the actual drawing functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const board = document.getElementById('board');
+            const colorPicker = document.getElementById('color-picker');
+            
+            // Create 1200 pixels (40x30 grid)
+            for (let i = 0; i < 1200; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                board.appendChild(pixel);
+                
+                // Change color on hover
+                pixel.addEventListener('mouseover', function(e) {
+                    if (e.buttons === 1) { // Only color if mouse is pressed
+                        pixel.style.backgroundColor = colorPicker.value;
+                    }
+                });
+                
+                // Allow clicking to color
+                pixel.addEventListener('mousedown', function() {
+                    pixel.style.backgroundColor = colorPicker.value;
+                });
+            }
+        });
+        
+        function clearDrawing() {
+            const pixels = document.querySelectorAll('.pixel');
+            pixels.forEach(pixel => {
+                pixel.style.backgroundColor = 'white';
+            });
+        }
+    </script>
+</body>
+</html>
